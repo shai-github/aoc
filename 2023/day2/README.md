@@ -36,4 +36,4 @@ Determine which games would have been possible if the bag had been loaded with o
 
 ## Inputs
 
-Input values can be found at [`aoc/2023/day2/input.txt`](https://github.com/shai-github/aoc/main/2023/day2/input.txt)
+Input values can be found at [`aoc/2023/day2/input.txt`](https://github.com/shai-github/aoc/blob/main/2023/day2/input.txt)
