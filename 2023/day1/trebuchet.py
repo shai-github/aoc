@@ -56,8 +56,11 @@ def merge_digit_pairs(digits: list):
     return digit_pairs
 
 
-def main():
+def sum_pairs():
     """
+    Find all numbers in the data, merge the first and last digits of each number 
+        into a list of pairs, and return the sum of all pairs
+    :return: The sum of all pairs
     """
     data = parse_data(
         data_string=read_data(pathname="input.txt")
