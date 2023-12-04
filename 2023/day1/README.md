@@ -23,4 +23,4 @@ Consider your entire calibration document. **What is the sum of all of the calib
 
 ### Inputs
 
-Input values can be found at [`aoc/2023/day1/input.txt`]()
+Input values can be found at [`aoc/2023/day1/input.txt`](https://github.com/shai-github/aoc/blob/main/2023/day1/input.txt)
