@@ -74,3 +74,8 @@ def sum_pairs(recalibrate: bool = False):
     pairs = merge_digit_pairs(digits=digits)
 
     return sum(pairs)
+
+
+if __name__ == "__main__":
+    print(f"Without accounting for recalibration, the sum of pairs is: {sum_pairs(recalibrate=False)}")
+    print(f"Accounting for recalibration, the sum of pairs is: {sum_pairs(recalibrate=True)}")
