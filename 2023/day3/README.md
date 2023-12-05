@@ -37,3 +37,5 @@ Of course, the actual engine schematic is much larger. **What is the sum of all 
 
 
 ### Inputs
+
+Input values can be found at [`aoc/2023/day3/input.txt`](https://github.com/shai-github/aoc/blob/main/2023/day3/input.txt)
