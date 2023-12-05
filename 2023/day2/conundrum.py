@@ -1,4 +1,7 @@
 import re
+import operator
+
+from functools import reduce
 
 
 CUBE_MAP = {
@@ -50,35 +53,50 @@ def map_color_games(data: list) -> dict:
     }
 
 
-def filter_games(color_games: dict) -> list:
+def filter_games(color_games: dict, filter: bool = False) -> list:
     """
     Filters for the games that meet the criteria
     :param color_games: The games mapped to their color counts
+    :param filter: Whether or not to filter the games by part 1 criteria
+        if False, filter to get the minimum number needed of each color
     :return: A sum of indices of games that meet the criteria
     """
     ret_list = []
 
     for game, counts in color_games.items():
-        fails_check = False
+        if filter:
+            fails_check = False
+        else:
+            map_dict = {color: 0 for color in CUBE_MAP.keys()}
         for data in counts.values():
-            for pos, color in enumerate(data['color']):
-                if CUBE_MAP[color] < int(data['count'][pos]):
-                    fails_check = True
-        if not fails_check:
-            ret_list.append(game)
+            if filter:
+                for pos, color in enumerate(data['color']):
+                    if CUBE_MAP[color] < int(data['count'][pos]):
+                        fails_check = True
+            else:
+                for pos, color in enumerate(data['color']):
+                    if color in map_dict.keys():
+                        if int(data['count'][pos]) > map_dict[color]:
+                            map_dict[color] = int(data['count'][pos])
+        if filter:
+            if not fails_check:
+                ret_list.append(game)
+        else:
+            val = list(map_dict.values())
+            ret_list.append(reduce(operator.mul, val, 1))
                     
     return sum(ret_list)
 
 
-def sum_ids():
+def sum_ids(filter: bool = False):
     """
-    Sums the indices of the games that meet the criteria
+    Sums the indices of the games that meet the criteria for part 1 or 2
     :return: The sum of the indices of the games that meet the criteria
     """
     data = parse_data(read_data("input.txt"))
     color_games = map_color_games(data)
 
-    return filter_games(color_games)
+    return filter_games(color_games=color_games, filter=filter)
 
 
 if __name__ == "__main__":
