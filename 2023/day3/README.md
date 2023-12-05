@@ -1,4 +1,4 @@
-# Day 3:
+# Day 3: Gear Ratios
 
 ### Part 1
 
