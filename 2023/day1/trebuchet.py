@@ -36,27 +36,17 @@ def find_numbers(data: list, recalibrate: bool = False):
     :param recalibrate: Whether to use the recalibrated data method
     :return: The numbers as a list of lists of digits
     """
-    ret_list = []
+    if recalibrate:
+        digit_strings = list(STRING_MAP.keys()) + list(STRING_MAP.values())
+    else:
+        digit_strings = [str(num) for num in range(1, 10)]
+
+    all_numbers = [[num for num in re.findall(r"(?=("+'|'.join(digit_strings)+r"))", line)] for line in data]
 
     if recalibrate:
-        expanded_strings = list(STRING_MAP.keys()) + list(STRING_MAP.values())
-        all_numbers = [[num for num in re.findall(r"(?=("+'|'.join(expanded_strings)+r"))", line)] for line in data]
-    else:
-        all_numbers = [[num for num in re.findall(r"\d+", line)] for line in data]
-    
-    for numbers in all_numbers:
-        separated_numbers = []
-        for number in numbers:
-            if recalibrate:
-                if number in STRING_MAP.keys():
-                    separated_numbers.append(STRING_MAP[number])
-                else:
-                    separated_numbers += [digit for digit in number]
-            else:
-                separated_numbers += [digit for digit in number]
-        ret_list.append(separated_numbers)
+        all_numbers = [[STRING_MAP[num] if num in STRING_MAP.keys() else num for num in line] for line in all_numbers]
 
-    return ret_list
+    return all_numbers
 
 
 def merge_digit_pairs(digits: list):
@@ -66,15 +56,7 @@ def merge_digit_pairs(digits: list):
     :param digits: The numbers as a list of lists of digits
     :return: The pairs as a list of integers
     """
-    digit_pairs = []
-
-    for digit_list in digits:
-        if len(digit_list) == 1:
-            digit_pairs.append(int(digit_list[0] + digit_list[0]))
-        else:
-            digit_pairs.append(int(digit_list[0] + digit_list[-1]))
-
-    return digit_pairs
+    return [int(digit_list[0] + digit_list[-1]) if len(digit_list) > 1 else int(digit_list[0] + digit_list[0]) for digit_list in digits]
 
 
 def sum_pairs(recalibrate: bool = False):
@@ -92,3 +74,8 @@ def sum_pairs(recalibrate: bool = False):
     pairs = merge_digit_pairs(digits=digits)
 
     return sum(pairs)
+
+
+if __name__ == "__main__":
+    print(f"Without accounting for recalibration, the sum of pairs is: {sum_pairs(recalibrate=False)}")
+    print(f"Accounting for recalibration, the sum of pairs is: {sum_pairs(recalibrate=True)}")

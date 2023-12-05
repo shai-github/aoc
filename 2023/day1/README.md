@@ -43,4 +43,4 @@ In this example, the calibration values are `29`, `83`, `13`, `24`, `42`, `14`, 
 
 ### Inputs
 
-Input values can be found at [`aoc/2023/day1/input.txt`](https://github.com/shai-github/aoc/main/2023/day1/input.txt)
+Input values can be found at [`aoc/2023/day1/input.txt`](https://github.com/shai-github/aoc/blob/main/2023/day1/input.txt)
