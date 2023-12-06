@@ -82,11 +82,49 @@ def scan_lines(data: list) -> dict:
     }
 
 
+def get_adjacent_numbers(data: list) -> list:
+    """
+    Gets the adjacent numbers to a symbol in a line
+    :param data: The data as a list of lines
+    :return: a list of adjacent numbers to a symbol in a line
+    """
+    ret_list = []
+    scan_data = scan_lines(data=data)
+    max_key = max(scan_data.keys())
+
+    for idx, scan in scan_data.items():
+        for num_data in scan['num'].values():
+            pos_list = num_data['pos'] + [min(num_data['pos']) - 1, max(num_data['pos']) + 1]
+            if any(pos in pos_list for pos in scan['sym']):
+                ret_list.append(int(num_data['number']))
+                continue
+            if idx != 0:
+                if idx == max_key:
+                    if any(pos in pos_list for pos in scan_data[idx - 1]['sym']):
+                        ret_list.append(int(num_data['number']))
+                        continue
+                else:
+                    if any(pos in pos_list for pos in scan_data[idx - 1]['sym']) or any(pos in pos_list for pos in scan_data[idx + 1]['sym']):
+                        ret_list.append(int(num_data['number']))
+                        continue
+            else:
+                if any(pos in pos_list for pos in scan_data[idx + 1]['sym']):
+                    ret_list.append(int(num_data['number']))
+                    continue
+
+    return ret_list
+            
+
 def sum_adjacent():
     """
     Sums the numbers that are adjacent to a symbol according to the 
         criteria specified in part 1
     """
     data = parse_data(read_data("input.txt"))
+    adjacent_numbers = get_adjacent_numbers(data=data)
 
-    return data
+    return sum(adjacent_numbers)
+
+
+if __name__ == "__main__":
+    print(f"The sum of all numbers adjacent to a symbol is {sum_adjacent()}")
