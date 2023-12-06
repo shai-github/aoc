@@ -66,6 +66,7 @@ def get_symbol_indices(line: list) -> dict:
     :return: a dictionary mapping a line index to the positions of symbols
         in a given line
     """
+    return [idx for idx, sym in enumerate(line) if (not sym.isdigit()) and (sym != ".")]
 
 
 def scan_lines(data: list) -> dict:
@@ -75,7 +76,12 @@ def scan_lines(data: list) -> dict:
     :return: a dictionary mapping a line index to the positions of numbers
         and symbols in a given line
     """
-
+    return {
+        idx: {
+            'num': get_number_spans(line),
+            'sym': get_symbol_indices(line)
+        } for idx, line in enumerate(data)
+    }
 
 
 def sum_adjacent():
