@@ -75,9 +75,8 @@ def filter_games(color_games: dict, filter: bool = False) -> list:
                         fails_check = True
             else:
                 for pos, color in enumerate(data['color']):
-                    if color in map_dict.keys():
-                        if int(data['count'][pos]) > map_dict[color]:
-                            map_dict[color] = int(data['count'][pos])
+                    if int(data['count'][pos]) > map_dict[color]:
+                        map_dict[color] = int(data['count'][pos])
         if filter:
             if not fails_check:
                 ret_list.append(game)
@@ -100,4 +99,5 @@ def sum_ids(filter: bool = False):
 
 
 if __name__ == "__main__":
-    print(sum_ids())
+    print(f"The sum of the indices of the games that meet the criteria is {sum_ids(filter=True)}")
+    print(f"The sum of the power of minimum colors for all games is {sum_ids()}")
