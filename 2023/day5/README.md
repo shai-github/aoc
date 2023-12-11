@@ -111,6 +111,6 @@ So, the lowest location number in this example is `35`.
 
 
 
-### Input
+### Inputs
 
 Input values can be found at [`aoc/2023/day5/input.txt`](https://github.com/shai-github/aoc/blob/main/2024/day5/input.txt)
