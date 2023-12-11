@@ -1,5 +1,7 @@
 import re
 
+from collections import defaultdict
+
 
 def read_data(pathname: str) -> str:
     """
@@ -42,25 +44,59 @@ def score_cards(data: list) -> list:
     :return: a list of scores for each card
     """
     card_data = split_numbers(data=data)
-    points = {idx: 0 for idx in card_data.keys()}
+    points = {
+        idx: {
+            'score': 0,
+            'matches': 0
+        } for idx in card_data.keys()
+    }
 
     for idx, card in card_data.items():
         wins = [int(num) for num in card['card'] if num in card['win']]
         if len(wins) == 0:
             continue
         elif len(wins) == 1:
-            points[idx] = 1
+            points[idx]['score'] = 1
+            points[idx]['matches'] = 1
         elif len(wins) > 1:
-            points[idx] = 2**(len(wins)-1)
+            points[idx]['score'] = 2**(len(wins)-1)
+            points[idx]['matches'] = len(wins)
     
-    return [score for score in points.values()]
+    return points
 
 
-def sum_points():
+def copy_cards(points: dict) -> list:
     """
+    Sums the number of cards that meet the matching criteria
+        for part 2 of the challenge
+    :param points: The dictionary of scores and matches for each card
+    :return: The number of cards that meet the matching criteria
+    """
+    card_map = defaultdict(int)
 
+    for idx, score in points.items():
+        card_map[idx] += 1
+        for count in range(idx + 1, min(idx + 1 + score['matches'], len(points))):
+            card_map[count] += card_map[idx]
+
+    return sum([count for count in card_map.values()])
+
+
+def sum_points(copy_bool: bool = False) -> int:
+    """
+    Sums points or card copies based on the copy_bool flag
+    :param copy_bool: A flag to determine whether to sum points or card copies
+    :return: The sum of points or card copies
     """
     data = parse_data(read_data("input.txt"))
-    score_list = score_cards(data=data)
+    points = score_cards(data=data)
 
-    return sum(score_list)
+    if copy_bool:
+        return copy_cards(points=points)
+
+    return sum([score['score'] for score in points.values()])
+
+
+if __name__ == "__main__":
+    print(f"The sum of all card scores for part 1 is {sum_points()}")
+    print(f"The sum of all card scores for part 2 is {sum_points(copy_bool=True)}")
