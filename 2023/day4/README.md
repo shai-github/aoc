@@ -73,4 +73,4 @@ Process all of the original and copied scratchcards until no more scratchcards a
 
 ### Inputs
 
-Input values can be found at [`aoc/2023/day4/input.txt`](https://github.com/shai-github/aoc/blob/main/2024/day3/input.txt)
+Input values can be found at [`aoc/2023/day4/input.txt`](https://github.com/shai-github/aoc/blob/main/2024/day4/input.txt)
