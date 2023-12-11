@@ -35,11 +35,32 @@ def split_numbers(data: list) -> dict:
     }
 
 
+def score_cards(data: list) -> list:
+    """
+    Scores the cards based on the winning numbers and the card numbers
+    :param data: The data as a list of lines
+    :return: a list of scores for each card
+    """
+    card_data = split_numbers(data=data)
+    points = {idx: 0 for idx in card_data.keys()}
+
+    for idx, card in card_data.items():
+        wins = [int(num) for num in card['card'] if num in card['win']]
+        if len(wins) == 0:
+            continue
+        elif len(wins) == 1:
+            points[idx] = 1
+        elif len(wins) > 1:
+            points[idx] = 2**(len(wins)-1)
+    
+    return [score for score in points.values()]
+
+
 def sum_points():
     """
+
     """
     data = parse_data(read_data("input.txt"))
-    split = split_numbers(data)
-    
-    print(data[0])
-    print(split[0])
+    score_list = score_cards(data=data)
+
+    return sum(score_list)
