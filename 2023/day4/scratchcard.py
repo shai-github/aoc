@@ -22,6 +22,10 @@ def parse_data(data_string: str) -> list:
 
 def split_numbers(data: list) -> dict:
     """
+    Splits the data into a dictionary of lines with the numbers split out
+    :param data: The data as a list of lines
+    :return: The data as a dictionary of lines with the numbers split out
+        for winning numbers and actual card numberes for a given card
     """
     return {
         idx: {
