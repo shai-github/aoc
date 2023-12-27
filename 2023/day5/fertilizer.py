@@ -59,9 +59,10 @@ def pair_mapping(num_list: list) -> dict:
     num_map = defaultdict()
 
     for mapping in num_list:
-        destination = list(range(mapping[0], mapping[0] + mapping[2]))
-        source = list(range(mapping[1], mapping[1] + mapping[2]))
-        num_map.update(dict(zip(source, destination)))
+        num_map[mapping[0]] = {
+            "source": [mapping[1], mapping[1] + mapping[2]-1],
+            "range": mapping[2]
+        }
 
     return num_map
 
@@ -90,14 +91,21 @@ def traverse_mappings(seeds: list, mappings: dict) -> dict:
     """
     location_map = defaultdict()
 
+    print(mappings)
+
     for seed in seeds:
         for idx, mapping in mappings.items():
+            valid_map = False
             if idx == 0:
                 ref = seed
-            if ref not in mapping.keys():
+            for key, val in mapping.items():
+                if val["source"][0] <= ref <= val["source"][1]:
+                    ref = (ref - val["source"][0]) + key
+                    valid_map = True
+                    break
+            if not valid_map:
                 ref = ref
-            else:
-                ref = mapping[ref]
+            print(seed, idx, ref)
         location_map[seed] = ref
 
     return location_map
@@ -111,7 +119,7 @@ def find_minimum():
         temperature to humidity, and humidity to location.
     :return: The minimum location value
     """
-    data_map = map_data(data=parse_data(read_data("input.txt")))
+    data_map = map_data(data=parse_data(read_data("test.txt")))
     mappings = make_mappings(
         data_map={k: v for k, v in data_map.items() if k != "seeds"}
     )
