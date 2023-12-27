@@ -91,8 +91,6 @@ def traverse_mappings(seeds: list, mappings: dict) -> dict:
     """
     location_map = defaultdict()
 
-    print(mappings)
-
     for seed in seeds:
         for idx, mapping in mappings.items():
             valid_map = False
@@ -105,7 +103,6 @@ def traverse_mappings(seeds: list, mappings: dict) -> dict:
                     break
             if not valid_map:
                 ref = ref
-            print(seed, idx, ref)
         location_map[seed] = ref
 
     return location_map
