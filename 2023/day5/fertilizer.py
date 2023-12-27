@@ -111,7 +111,7 @@ def find_minimum():
         temperature to humidity, and humidity to location.
     :return: The minimum location value
     """
-    data_map = map_data(data=parse_data(read_data("test.txt")))
+    data_map = map_data(data=parse_data(read_data("input.txt")))
     mappings = make_mappings(
         data_map={k: v for k, v in data_map.items() if k != "seeds"}
     )
