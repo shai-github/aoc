@@ -79,21 +79,50 @@ def make_mappings(data_map: dict) -> dict:
     }
 
 
-def traverse_mappings(mappings: dict) -> dict:
+def traverse_mappings(seeds: list, mappings: dict) -> dict:
     """
+    Traverses the mappings for seeds to soil, soil to fertilizer,
+        fertilizer to water, water to light, light to temperature,
+        temperature to humidity, and humidity to location.
+    :param seeds: The seeds to map
+    :param mappings: The mappings for each of the data types
+    :return: The mapping of seeds to location
     """
+    location_map = defaultdict()
+
+    for seed in seeds:
+        for idx, mapping in mappings.items():
+            if idx == 0:
+                ref = seed
+            if ref not in mapping.keys():
+                ref = ref
+            else:
+                ref = mapping[ref]
+        location_map[seed] = ref
+
+    return location_map
 
 
-def something():
+def find_minimum():
     """
+    Retrieves the minimum location value from mapping the seeds to
+        locations via the mappings for seeds to soil, soil to fertilizer,
+        fertilizer to water, water to light, light to temperature,
+        temperature to humidity, and humidity to location.
+    :return: The minimum location value
     """
     data_map = map_data(data=parse_data(read_data("test.txt")))
     mappings = make_mappings(
         data_map={k: v for k, v in data_map.items() if k != "seeds"}
     )
 
-    return data_map, mappings
+    location_map = traverse_mappings(
+        seeds=data_map["seeds"], 
+        mappings=mappings
+    )
+
+    return min(location_map.values())
 
 
 if __name__ == "__main__":
-    pass
+    print("The minimum location value is:", find_minimum())
